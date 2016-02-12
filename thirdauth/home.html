@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block script %}
+    <script type="text/javascript">
+       
+     function getContacts(clickedAlphabet){
+
+      var csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+      $.ajax({
+                    url: '/contact/getContacts/',
+                    type: 'post',
+                    data: {'clicked_alphabet': clickedAlphabet, 'csrfmiddlewaretoken':csrf_token},
+                    dataType:'json',
+                    cache: false,
+                    success: function(response){
+                        $("#firstnamelist").empty();
+                        $("#lastnamelist").empty();
+                        $("#emaillist").empty();
+                        $("#phonelist").empty();
+                        for (i = 0; i < response.filtered_contact_list.length; i++){
+
+                          $("#firstnamelist").append("<li>"+response.filtered_contact_list[i][0] + "</li>");
+                          $("#lastnamelist").append("<li>"+response.filtered_contact_list[i][1] + "</li>");
+                          $("#emaillist").append("<li>"+response.filtered_contact_list[i][2] + "</li>");
+                          $("#phonelist").append("<li>"+response.filtered_contact_list[i][3] + "</li>");
+                        }
+                    },
+                    error: function(xhr, err){
+                        console.log(xhr.responseText);
+                    }
+                });
+
+                  
+                  //var a = document.getElementById("BtnA").value;
+                  console.log(clickedAlphabet);
+
+     }
+
+
+    </script>
+{% endblock %}
+
+{% block main %}
+ <div>
+ <h1>Third-party authentication demo</h1>
+
+ <p>
+   <ul>
+   {% if user and not user.is_anonymous %}
+     
+       <a>Hello {{ user.get_full_name|default:user.username }}!</a> 
+       <a href="/contact/createContact">
+               
+               <p class="hidden-xs">Add new contact</p>
+             </a>
+  <div class="container">
+    <div class="btn-toolbar">
+    <div class="btn-group btn-group-sm">
+      <input type="button" class="btn btn-default" id="BtnA" value="A" onclick="getContacts('A');">
+      <input type="button" class="btn btn-default" id="BtnB" value="B" onclick="getContacts('B');">
+      <input type="button" class="btn btn-default" id="myBtn" value="C" onclick="getContacts('C');">
+      <input type="button" class="btn btn-default" id="myBtn" value="D" onclick="getContacts('D');">
+      <input type="button" class="btn btn-default" id="myBtn" value="E" onclick="getContacts('E');">
+      <input type="button" class="btn btn-default" id="myBtn" value="F" onclick="getContacts('F');">
+      <input type="button" class="btn btn-default" id="myBtn" value="G" onclick="getContacts('G');">
+      <input type="button" class="btn btn-default" id="myBtn" value="H" onclick="getContacts('H');">
+      <input type="button" class="btn btn-default" id="myBtn" value="I" onclick="getContacts('I');">
+      <input type="button" class="btn btn-default" id="myBtn" value="J" onclick="getContacts('J');">
+      <input type="button" class="btn btn-default" id="myBtn" value="K" onclick="getContacts('K');">
+      <input type="button" class="btn btn-default" id="myBtn" value="L" onclick="getContacts('L');">
+      <input type="button" class="btn btn-default" id="myBtn" value="M" onclick="getContacts('M');">
+      <input type="button" class="btn btn-default" id="myBtn" value="N" onclick="getContacts('N');">
+      <input type="button" class="btn btn-default" id="myBtn" value="O" onclick="getContacts('O');">
+      <input type="button" class="btn btn-default" id="myBtn" value="P" onclick="getContacts('P');">
+      <input type="button" class="btn btn-default" id="myBtn" value="Q" onclick="getContacts('Q');">
+      <input type="button" class="btn btn-default" id="myBtn" value="R" onclick="getContacts('R');">
+      <input type="button" class="btn btn-default" id="myBtn" value="S" onclick="getContacts('S');">
+      <input type="button" class="btn btn-default" id="myBtn" value="T" onclick="getContacts('T');">
+      <input type="button" class="btn btn-default" id="myBtn" value="U" onclick="getContacts('U');">
+      <input type="button" class="btn btn-default" id="myBtn" value="V" onclick="getContacts('V');">
+      <input type="button" class="btn btn-default" id="myBtn" value="W" onclick="getContacts('W');">
+      <input type="button" class="btn btn-default" id="myBtn" value="X" onclick="getContacts('X');">
+      <input type="button" class="btn btn-default" id="myBtn" value="Y" onclick="getContacts('Y');">
+      <input type="button" class="btn btn-default" id="myBtn" value="Z" onclick="getContacts('Z');">
+
+    </div>
+  </div>
+</div>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    
+   <div class="col-sm-3 pull-down"><a class="header-color">FirstName</a>
+    <div class="bg-color">
+     <ul id="firstnamelist">
+      {% for contact in all_contact_list %}
+        <li> 
+            {{ contact.firstName }}
+        </li>
+      {% endfor %}
+     </ul>
+    </div>
+   </div>
+    <div class="col-sm-3 pull-down"><a class="header-color">LastName </a>
+     <div class="bcg-color">
+      <ul id="lastnamelist">
+       {% for contact in all_contact_list %}
+        <li> 
+            {{ contact.lastName }}
+        </li>
+      {% endfor %}
+      </ul>
+      </div>
+    </div>
+    <div class="col-sm-3 pull-down"><a class="header-color">Email </a>
+     <div class="bg-color">
+      <ul id="emaillist">
+       {% for contact in all_contact_list %}
+         <li> 
+             {{ contact.email }}
+         </li>
+       {% endfor %}
+     </ul>
+     </div>
+    </div>
+      <div class="col-sm-3 pull-down"><a class="header-color">Phone Number</a>
+     <div class="bcg-color">
+      <ul id="phonelist">
+       {% for contact in all_contact_list %}
+         <li> 
+             {{ contact.phone_number }}
+         </li>
+       {% endfor %}
+      </ul>
+     </div>
+    </div>
+  </div>
+</nav>
+
+        
+     
+    <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+     
+   {% else %}
+     
+       <a  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}">
+          <div class=" col-lg-12">
+          <img src="/static/images/fb.png" class="img-size pull-left">
+          </div>
+       </a>
+     
+     <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">
+         <div class=" col-lg-12">
+             <img src="/static/images/twitter.png" class="img-size pull-left">
+          </div>
+       </a>
+     
+     <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">
+          <div class=" col-lg-12">
+             <img src="/static/images/google.png" class="img-size pull-left">
+          </div>
+     </a>
+     
+   {% endif %}
+   </ul>
+ </p>
+ </div>
+{% endblock %}
