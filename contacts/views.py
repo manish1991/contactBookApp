@@ -12,6 +12,10 @@ from contacts.models import Contact
 @login_required
 @csrf_exempt
 def createContact(request):
+    """
+        In this view a form for creating new contact will be loaded 
+        and contact details will be saved in database.
+    """
     if request.method == "POST":
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -40,6 +44,10 @@ def createContact(request):
 @login_required
 @csrf_exempt
 def  get_contacts(request):
+    """
+        In this view contacts whose first name starts with the clicked_alphabet
+        will be filtered.
+    """
     clicked_alphabet = request.POST.get('clicked_alphabet')
     filtered_contact_list = Contact.objects.filter(firstName__startswith=clicked_alphabet).values_list('firstName', 'lastName', 'email', 'phone_number')
     return HttpResponse(json.dumps({'status': 'success', 'filtered_contact_list': list(filtered_contact_list)}))
