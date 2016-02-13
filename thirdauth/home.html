@@ -17,23 +17,33 @@
                         $("#lastnamelist").empty();
                         $("#emaillist").empty();
                         $("#phonelist").empty();
+                        $("#editcontact").empty();
+                        $("#deletecontact").empty();
+                        $(".container-fluid").hide();
+                        if(response.filtered_contact_list.length>0){
+                            $(".container-fluid").show();
+                        }
+                        else{
+                          $(".navbar").html("<span class='error-message'>No contacts found!</span");
+                        }
                         for (i = 0; i < response.filtered_contact_list.length; i++){
 
                           $("#firstnamelist").append("<li>"+response.filtered_contact_list[i][0] + "</li>");
                           $("#lastnamelist").append("<li>"+response.filtered_contact_list[i][1] + "</li>");
                           $("#emaillist").append("<li>"+response.filtered_contact_list[i][2] + "</li>");
                           $("#phonelist").append("<li>"+response.filtered_contact_list[i][3] + "</li>");
+                          $("#editcontact").append("<li> <a class='edit-color' href='/contact/createContact/"
+                            +response.filtered_contact_list[i][4] +"/edit'><img class='image-size' src='/static/images/edit.png'/>edit</a </li>");
+                          $("#deletecontact").append("<li> <a class='delete-color' href='/contact/createContact/"
+                            +response.filtered_contact_list[i][4] +"/delete'><img class='image-size' src='/static/images/delete.png'/>delete</a </li>");
+                                                                                              
+                          //$("#phonelist").append("<li>"+response.filtered_contact_list[i][3] + "</li>");
                         }
                     },
                     error: function(xhr, err){
                         console.log(xhr.responseText);
                     }
                 });
-
-                  
-                  //var a = document.getElementById("BtnA").value;
-                  console.log(clickedAlphabet);
-
      }
 
 
@@ -90,7 +100,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     
-   <div class="col-sm-3 pull-down"><a class="header-color">FirstName</a>
+   <div class="col-sm-2 pull-down"><a class="header-color">FirstName</a>
     <div class="bg-color">
      <ul id="firstnamelist">
       {% for contact in all_contact_list %}
@@ -101,7 +111,7 @@
      </ul>
     </div>
    </div>
-    <div class="col-sm-3 pull-down"><a class="header-color">LastName </a>
+    <div class="col-sm-2 pull-down"><a class="header-color">LastName </a>
      <div class="bcg-color">
       <ul id="lastnamelist">
        {% for contact in all_contact_list %}
@@ -112,7 +122,7 @@
       </ul>
       </div>
     </div>
-    <div class="col-sm-3 pull-down"><a class="header-color">Email </a>
+    <div class="col-sm-2 pull-down"><a class="header-color">Email </a>
      <div class="bg-color">
       <ul id="emaillist">
        {% for contact in all_contact_list %}
@@ -123,18 +133,44 @@
      </ul>
      </div>
     </div>
-      <div class="col-sm-3 pull-down"><a class="header-color">Phone Number</a>
+    <div class="col-sm-2 pull-down"><a class="header-color">Phone Number</a>
      <div class="bcg-color">
       <ul id="phonelist">
        {% for contact in all_contact_list %}
          <li> 
-             {{ contact.phone_number }}
+             {{ contact.phone_number }} 
          </li>
        {% endfor %}
       </ul>
      </div>
     </div>
-  </div>
+
+    <div class="col-sm-2 pull-down"><br>
+      <ul id="editcontact" class="a">
+       {% for contact in all_contact_list %}
+         <li> 
+            <a class="edit-color" href="/contact/createContact/{{ contact.id}}/edit">
+               <img class="image-size" src="/static/images/edit.png"/>edit
+            </a
+             
+         </li>
+       {% endfor %}
+      </ul>
+    </div>
+
+    <div class="col-sm-2 pull-down"><br>
+      <ul id="deletecontact" class="a">
+       {% for contact in all_contact_list %}
+         <li> 
+            <a class="delete-color" title=""  href="/contact/createContact/{{ contact.id}}/delete">
+               <img class="image-size" src="/static/images/delete.png"/>delete
+            </a>
+             
+         </li>
+       {% endfor %}
+      </ul>
+    </div>
+    </div>
 </nav>
 
         

@@ -26,9 +26,46 @@
 .header-color{
 
 	color: #000099;
-	margin-left: 80px;
+	margin-left: 30px;
 }
 
 ul{
 	list-style-type: square;
  }
+
+ul.a{
+	 
+	 list-style-type: none;
+}
+
+ .edit{
+
+ 	margin-left: 50px;
+ }
+
+ .image-size{
+
+ 	height: 10px;
+    width: 10px;
+ }
+
+
+li{
+	margin-top: 15px;
+}
+
+.edit-color{
+        color:#00FF00;
+}
+
+.delete-color{
+        color:#FF0000;
+}
+
+
+.error-message{
+    color:#FF0000;
+	margin-top:60px;
+	margin-left: 250px;
+	font-size: 200%;
+}
