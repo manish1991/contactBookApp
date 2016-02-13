@@ -63,9 +63,9 @@ li{
 }
 
 
-.error-message{
+.empty-message{
     color:#FF0000;
-	margin-top:60px;
+	margin-top:20px;
 	margin-left: 250px;
-	font-size: 200%;
+	font-size: 150%;
 }

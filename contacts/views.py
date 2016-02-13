@@ -72,7 +72,8 @@ def  get_contacts(request):
         will be filtered.
     """
     clicked_alphabet = request.POST.get('clicked_alphabet')
-    filtered_contact_list = Contact.objects.filter(firstName__startswith=clicked_alphabet).values_list('firstName', 'lastName', 'email', 'phone_number','id')
+    filtered_contact_list = Contact.objects.filter(created_by=request.user.id,firstName__startswith=
+                                                   clicked_alphabet).values_list('firstName', 'lastName', 'email', 'phone_number','id')
     return HttpResponse(json.dumps({'status': 'success', 'filtered_contact_list': list(filtered_contact_list)}))
 
 
